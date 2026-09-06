@@ -177,8 +177,8 @@ section { scroll-margin-top: calc(var(--header-h) + 12px); }
 }
 .brand-sub {
   font-family: var(--font-head);
-  font-size: 10px;
-  letter-spacing: 0.14em;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
   color: var(--c-primary);
   font-weight: 700;
 }

@@ -71,9 +71,17 @@ def main() -> int:
         print(f"[SKIP] {iso} は skip_dates.txt に含まれているため投稿しません。")
         return 0
 
+    # 月の5回目の土曜は未開催（振替予備日）のため告知もスキップ
+    if (target.day - 1) // 7 + 1 == 5:
+        print(f"[SKIP] {iso} はその月の5回目の土曜（振替予備日）のため投稿しません。")
+        return 0
+
     template = (BASE / "post_template.txt").read_text(encoding="utf-8")
     date_label = f"{target.month}月{target.day}日(土)"
-    text = template.replace("{date}", date_label).strip() + "\n"
+    # 一言({hitokoto})は「毎回新規作成・使い回し禁止」ルールのため、
+    # 定型文しか作れないこのAPI経路では行ごと削除して本文のみ投稿する
+    text = template.replace("{hitokoto}\n\n", "").replace("{hitokoto}", "")
+    text = text.replace("{date}", date_label).strip() + "\n"
     text = text.rstrip("\n")
 
     length = weighted_length(text)
